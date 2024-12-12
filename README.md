@@ -3,6 +3,11 @@
 This project is a simple REST API built with Go and the Gin framework. It demonstrates how to structure a Go application with modular components like models, services, handlers, and routing. Additionally, it includes database migration support using SQL and the `migrate` tool.
 
 ## Project Structure
+
+<details>
+<summary>Expand to show the structure of this project</summary>
+
+```sh
 go-restapi-gin/
 ├── cmd/                     # Main application entry point 
 │   └── main.go              # The main file to run the application
@@ -24,6 +29,11 @@ go-restapi-gin/
 ├── .env                     # Environment variables for runtime configuration
 ├── go.mod                   # File modul Go
 └── go.sum                   # Go checksum file for dependencies
+```
+
+</details>
+
+
 
 
 ## Setting Up the Project
