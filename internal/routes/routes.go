@@ -9,7 +9,7 @@ import (
 )
 
 // SetupRoutes configures all the routes for the application
-func SetupRoutes(router *gin.Engine, db *gorm.DB) {
+func SetupRoutes(router *gin.Engine, db *gorm.DB, JWTSecretKey string) {
 	api := router.Group("/api")
 	{
 		// Auth routes
@@ -18,6 +18,7 @@ func SetupRoutes(router *gin.Engine, db *gorm.DB) {
 		authGroup := api.Group("/auth")
 		{
 			authGroup.POST("signup", authHandler.RegisterHandler)
+			authGroup.POST("signin", authHandler.LoginHandler)
 		}
 
 		// Role routes

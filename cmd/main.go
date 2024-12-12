@@ -10,7 +10,10 @@ import (
 
 func main() {
 	// Load configuration
-	cfg := config.LoadConfig()
+	cfg, err := config.LoadConfig()
+	if err != nil {
+		log.Fatalf("Error loading config: %v", err)
+	}
 
 	// Connect to database
 	db, err := config.ConnectDatabase(cfg)
@@ -29,7 +32,7 @@ func main() {
 	router := gin.Default()
 
 	// Setup routes
-	routes.SetupRoutes(router, db)
+	routes.SetupRoutes(router, db, cfg.JWTSecretKey)
 
 	// Default route
 	router.GET("/", func(c *gin.Context) {
