@@ -11,7 +11,7 @@ import (
 	"go-restapi-gin/internal/models"
 )
 
-type UserService struct {
+type AuthService struct {
 	DB *gorm.DB
 }
 
@@ -24,7 +24,7 @@ type RegisterInput struct {
 }
 
 // Register creates a new user in the database
-func (s *UserService) Register(input RegisterInput) (*models.User, error) {
+func (s *AuthService) Register(input RegisterInput) (*models.User, error) {
 	// Check if email already exists
 	var existingUser models.User
 	if err := s.DB.Where("email = ?", input.Email).First(&existingUser).Error; err == nil {

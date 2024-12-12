@@ -12,19 +12,12 @@ import (
 func SetupRoutes(router *gin.Engine, db *gorm.DB) {
 	api := router.Group("/api")
 	{
-		// // Dummy route for users
-		// api.GET("/users", func(c *gin.Context) {
-		// 	c.JSON(200, gin.H{
-		// 		"message": "Get all users (dummy route)",
-		// 	})
-		// })
-
-		// User routes
-		userService := &services.UserService{DB: db}
-		userHandler := &handlers.UserHandler{UserService: userService}
-		userGroup := api.Group("/users")
+		// Auth routes
+		authService := &services.AuthService{DB: db}
+		authHandler := &handlers.AuthHandler{AuthService: authService}
+		authGroup := api.Group("/auth")
 		{
-			userGroup.POST("", userHandler.RegisterHandler)
+			authGroup.POST("signup", authHandler.RegisterHandler)
 		}
 
 		// Role routes

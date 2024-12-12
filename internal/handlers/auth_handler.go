@@ -7,12 +7,12 @@ import (
 	"go-restapi-gin/internal/services"
 )
 
-type UserHandler struct {
-	UserService *services.UserService
+type AuthHandler struct {
+	AuthService *services.AuthService
 }
 
 // RegisterHandler handles user registration requests
-func (h *UserHandler) RegisterHandler(c *gin.Context) {
+func (h *AuthHandler) RegisterHandler(c *gin.Context) {
 	var input services.RegisterInput
 
 	// Bind and validate the input
@@ -24,7 +24,7 @@ func (h *UserHandler) RegisterHandler(c *gin.Context) {
 	}
 
 	// Call the Register service
-	user, err := h.UserService.Register(input)
+	user, err := h.AuthService.Register(input)
 	if err != nil {
 		if err.Error() == "email already in use" {
 			c.JSON(http.StatusConflict, gin.H{

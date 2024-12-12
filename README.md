@@ -15,11 +15,11 @@ go-restapi-gin/
 │   └── config.go
 ├── internal/                # Internal application logic
 │   ├── models/              
-│   │   └── user.go
+│   │   └── user_model.go
 │   ├── services/            
-│   │   └── user.go
+│   │   └── user_service.go
 │   ├── handlers/            
-│   │   └── user.go
+│   │   └── user_handler.go
 │   ├── routes/              
 │   │   └── routes.go
 ├── migrations/              # Database migration files
