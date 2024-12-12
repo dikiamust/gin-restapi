@@ -1,0 +1,26 @@
+# Build output
+*.exe
+*.out
+*.bin
+bin/
+build/
+dist/
+
+# VSCode
+.vscode/
+
+# GoLand
+.idea/
+
+# Log files
+*.log
+
+# Environment variables file
+.env
+
+# Go cache
+*.cache
+.cache/
+
+# Temporary files
+*.tmp

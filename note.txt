@@ -1,0 +1,41 @@
+go-restapi-gin/
+├── cmd/                     # Folder untuk entri aplikasi utama
+│   └── main.go              # File utama aplikasi
+├── config/                  # Konfigurasi aplikasi (environment, database, dll.)
+│   └── config.go
+├── internal/                # Folder untuk implementasi logika aplikasi
+│   ├── models/              # Definisi struktur database dan model
+│   │   └── user.go
+│   ├── services/            # Layer untuk logika bisnis
+│   │   └── user.go
+│   ├── handlers/            # Layer untuk controller/handler Gin
+│   │   └── user.go
+│   ├── routes/              # Definisi routing aplikasi
+│   │   └── routes.go
+├── migrations/              # File migrasi database
+│   └── 202412120001_create_users_table.sql
+├── scripts/                 # Skrip untuk pengaturan, deployment, dll. (opsional)
+│   └── setup.sh
+├── .env                     # File environment untuk variabel runtime
+├── go.mod                   # File modul Go
+└── go.sum                   # Checksum dependensi
+
+===========
+migrate create -ext sql -dir migrations -seq create_roles_table
+
+============
+Menjalankan Migrasi
+migrate -database "postgres://username:password@localhost:5432/go_restapi_gin?sslmode=disable" -path ./migrations up
+
+============
+Rollback Migrasi
+
+migrate -database "postgres://username:password@localhost:5432/go_restapi_gin?sslmode=disable" -path ./migrations down
+
+============
+run the project
+
+go run cmd/main.go
+
+
+
