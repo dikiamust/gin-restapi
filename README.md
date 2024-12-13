@@ -73,5 +73,5 @@ note:
 
 5. **Running the Application:**
    ```bash
-   go run cmd/main.go
+   reflex -c .reflex
    ```
