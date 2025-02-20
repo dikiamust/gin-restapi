@@ -81,7 +81,7 @@ func (s *KafkaService) ConsumeMessages(topic string) ([]string, error) {
 			messages = append(messages, string(msg.Value))
 			messageCount++
 			if messageCount >= maxMessages {
-				return messages, nil // Batasi sampai 5 pesan
+				return messages, nil // Limit to 5 messages
 			}
 		case <-timeout:
 			return messages, nil // Timeout and return messages
