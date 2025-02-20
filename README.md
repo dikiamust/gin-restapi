@@ -70,8 +70,9 @@ note:
    ```bash
    migrate create -ext sql -dir migrations -seq create_roles_table
    ```
+5. **Run the Kafka service**
 
-5. **Running the Application:**
+6. **Running the Application:**
    ```bash
    reflex -c .reflex
    ```

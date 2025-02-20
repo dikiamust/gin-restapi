@@ -5,9 +5,6 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
 )
 
 type Config struct {
@@ -18,6 +15,7 @@ type Config struct {
 	DBName        string
 	ServerAddress string
 	JWTSecretKey  string
+	KafkaBrokers  string
 }
 
 // LoadConfig loads configuration from environment variables
@@ -64,6 +62,11 @@ func LoadConfig() (Config, error) {
 		return Config{}, err
 	}
 
+	kafkaBrokers, err := getEnv("KAFKA_BROKERS")
+	if err != nil {
+		return Config{}, err
+	}
+
 	// Return the loaded configuration
 	return Config{
 		DBHost:        dbHost,
@@ -73,30 +76,8 @@ func LoadConfig() (Config, error) {
 		DBName:        dbName,
 		ServerAddress: serverAddress,
 		JWTSecretKey:  jwtSecretKey,
+		KafkaBrokers:  kafkaBrokers,
 	}, nil
-}
-
-
-// ConnectDatabase establishes a connection to the PostgreSQL database
-func ConnectDatabase(cfg Config) (*gorm.DB, error) {
-	dsn := fmt.Sprintf(
-		"host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
-		cfg.DBHost,
-		cfg.DBUser,
-		cfg.DBPassword,
-		cfg.DBName,
-		cfg.DBPort,
-	)
-
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
-		Logger: logger.Default.LogMode(logger.Info),
-	})
-
-	if err != nil {
-		return nil, fmt.Errorf("failed to connect to database: %w", err)
-	}
-
-	return db, nil
 }
 
 // getEnv retrieves environment variable and returns an error if it's not found
@@ -107,4 +88,3 @@ func getEnv(key string) (string, error) {
 	}
 	return value, nil
 }
-

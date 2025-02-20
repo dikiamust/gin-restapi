@@ -9,7 +9,7 @@ import (
 )
 
 // SetupRoutes configures all the routes for the application
-func SetupRoutes(router *gin.Engine, db *gorm.DB, jwtSecretKey string) {
+func SetupRoutes(router *gin.Engine, db *gorm.DB, jwtSecretKey string, kafkaService *services.KafkaService) {
 	api := router.Group("/api")
 	{
 		// Auth routes
@@ -30,6 +30,17 @@ func SetupRoutes(router *gin.Engine, db *gorm.DB, jwtSecretKey string) {
 			roleGroup.GET("", roleHandler.GetRolesHandler)
 			roleGroup.PUT(":id", roleHandler.UpdateRoleHandler)
 			roleGroup.DELETE(":id", roleHandler.DeleteRoleHandler)
+		}
+
+		// Kafka routes
+		kafkaHandler := handlers.NewKafkaHandler(kafkaService)
+		kafkaGroup := api.Group("/kafka")
+		{
+			// Add route to send Kafka message
+			kafkaGroup.POST("/send-message", kafkaHandler.SendKafkaMessageHandler)
+
+			// Add route to get Kafka messages
+			kafkaGroup.GET("/receive-messages", kafkaHandler.GetKafkaMessagesHandler)
 		}
 	}
 }

@@ -1,11 +1,12 @@
 package main
 
 import (
-	"log"
 	"go-restapi-gin/config"
 	"go-restapi-gin/internal/routes"
+	"go-restapi-gin/internal/services"
+	"log"
 
-    "github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -28,11 +29,21 @@ func main() {
 	}
 	defer sqlDB.Close()
 
+	// Load Kafka configuration
+	kafkaConfig := config.LoadKafkaConfig(cfg)
+
+	// Inisialisasi Kafka Service
+	kafkaService, err := services.NewKafkaService(kafkaConfig)
+	if err != nil {
+		log.Fatalf("Failed to initialize Kafka service: %v", err)
+	}
+	defer kafkaService.Close() // Close Kafka service when the application finishes
+
 	// Initialize Gin router
 	router := gin.Default()
 
 	// Setup routes
-	routes.SetupRoutes(router, db, cfg.JWTSecretKey)
+	routes.SetupRoutes(router, db, cfg.JWTSecretKey, kafkaService)
 
 	// Default route
 	router.GET("/", func(c *gin.Context) {
@@ -44,4 +55,3 @@ func main() {
 	// Run server
 	router.Run(cfg.ServerAddress)
 }
-
